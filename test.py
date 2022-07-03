@@ -1,16 +1,23 @@
 import sys
 from tkinter import *
-from tkinter import ttk
+from tkinter import ttk, Tk
 import random
-allloses=0
-allwins=0
+
+allloses = 0
+allwins = 0
+
+
 def scr():
+    """
+
+    :rtype: object
+    """
     global allloses
     global allwins
     wins = 0
-    allloses=0
-    allwins=0
-    win = Tk()
+    allloses = 0
+    allwins = 0
+    win: Tk = Tk()
     win.geometry("1920x1080")
     win.title("rpc")
     computer_options = {
@@ -18,13 +25,21 @@ def scr():
         "1": "Бумага",
         "2": "Ножницы"
     }
+
     def exits():
-        if allloses==3:
-            return 1
-            scr.exit()
-        if allwins==3:
-            return -1
-            win.destroy()
+        global allloses
+        global allwins
+        if allloses == 3:
+            try:
+                win.quit()
+            except BaseException:
+                pass
+        if allwins == 3:
+            try:
+                win.quit()
+            except BaseException:
+                pass
+
     def isrock():
         global wins
         global allwins
@@ -43,7 +58,7 @@ def scr():
             match_result = "Комп выиграл"
             allloses += 1
         if allwins == 3 or allloses == 3:
-            scr.exits()
+            exits()
         label.config(text=match_result)
         l1.config(text="Камень")
         l3.config(text=value)
@@ -56,7 +71,7 @@ def scr():
         if random.randint(0, 2) == 1:
             value = "Ножницы"
             match_result = "Комп выиграл"
-            allloses+=1
+            allloses += 1
         elif value == "Бумага":
             match_result = "Ничья"
         elif value == "Ножницы":
@@ -66,7 +81,7 @@ def scr():
             match_result = "Ты выиграл"
             allwins += 1
         if allwins == 3 or allloses == 3:
-            scr.exits()
+            exits()
         label.config(text=match_result)
         l1.config(text="Бумага")
         l3.config(text=value)
@@ -115,7 +130,11 @@ def scr():
     b4 = Button(labelframe, text="Exit", font=10, width=7, command=exits)
     b4.place(relx=.95, rely=.95)
     win.mainloop()
+    
+    if allwins > 2:
+        return 1
+    else:
+        return -1
+
+
 scr()
-
-
-
